@@ -3,27 +3,27 @@
     <div class="row my-5" layout:fragment="content">
         <div class="col-2">
             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <a class="nav-link active" id="v-pills-users-tab" data-toggle="pill" href="#v-pills-users" role="tab" aria-controls="v-pills-users" aria-selected="true">Users</a>
-                <a class="nav-link" id="v-pills-countries-tab" data-toggle="pill" href="#v-pills-countries" role="tab" aria-controls="v-pills-countries" aria-selected="false">Countries</a>
-                <a class="nav-link" id="v-pills-brands-tab" data-toggle="pill" href="#v-pills-brands" role="tab" aria-controls="v-pills-brands" aria-selected="false">Brands</a>
-                <a class="nav-link" id="v-pills-items-tab" data-toggle="pill" href="#v-pills-items" role="tab" aria-controls="v-pills-items" aria-selected="false">Shop Items</a>
-                <a class="nav-link" id="v-pills-categories-tab" data-toggle="pill" href="#v-pills-categories" role="tab" aria-controls="v-pills-categories" aria-selected="false">Categories</a>
-                <a class="nav-link" id="v-pills-roles-tab" data-toggle="pill" href="#v-pills-roles" role="tab" aria-controls="v-pills-roles" aria-selected="false">Roles</a>
-                <a class="nav-link" id="v-pills-payments-tab" data-toggle="pill" href="#v-pills-payments" role="tab" aria-controls="v-pills-payments" aria-selected="false">Payments</a>
+                <a class="nav-link active" id="v-pills-users-tab" data-toggle="pill" href="#v-pills-users" role="tab" aria-controls="v-pills-users" aria-selected="true" th:text="#{admin.users}"></a>
+                <a class="nav-link" id="v-pills-countries-tab" data-toggle="pill" href="#v-pills-countries" role="tab" aria-controls="v-pills-countries" aria-selected="false" th:text="#{admin.countries}"></a>
+                <a class="nav-link" id="v-pills-brands-tab" data-toggle="pill" href="#v-pills-brands" role="tab" aria-controls="v-pills-brands" aria-selected="false" th:text="#{admin.brands}"></a>
+                <a class="nav-link" id="v-pills-items-tab" data-toggle="pill" href="#v-pills-items" role="tab" aria-controls="v-pills-items" aria-selected="false" th:text="#{admin.shopItems}"></a>
+                <a class="nav-link" id="v-pills-categories-tab" data-toggle="pill" href="#v-pills-categories" role="tab" aria-controls="v-pills-categories" aria-selected="false" th:text="#{admin.categories}"></a>
+                <a class="nav-link" id="v-pills-roles-tab" data-toggle="pill" href="#v-pills-roles" role="tab" aria-controls="v-pills-roles" aria-selected="false" th:text="#{admin.roles}"></a>
+                <a class="nav-link" id="v-pills-payments-tab" data-toggle="pill" href="#v-pills-payments" role="tab" aria-controls="v-pills-payments" aria-selected="false" th:text="#{admin.payments}"></a>
             </div>
         </div>
         <div class="col-10">
             <div class="tab-content" id="v-pills-tabContent">
                 <div class="tab-pane fade show active" id="v-pills-users" role="tabpanel" aria-labelledby="v-pills-users-tab">
-                    <button type="button" class="btn btn-success ml-auto" style="color: white;" data-toggle="modal" data-target="#addUser">+ ADD NEW USER</button>
+                    <button type="button" class="btn btn-success ml-auto" style="color: white;" data-toggle="modal" data-target="#addUser" th:text="#{button.addNewUser}"></button>
                     <table class="table mt-5" >
                         <thead>
                         <tr>
                             <th scope="col">ID</th>
-                            <th scope="col">EMAIL</th>
-                            <th scope="col">FULL NAME</th>
-                            <th scope="col">ROLES</th>
-                            <th scope="col">DETAILS</th>
+                            <th scope="col" th:text="#{th.email}"></th>
+                            <th scope="col" th:text="#{th.fullName}"></th>
+                            <th scope="col" th:text="#{th.roles}"></th>
+                            <th scope="col" th:text="#{th.details}"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -32,59 +32,20 @@
                             <td th:text="${u.email}"></td>
                             <td th:text="${u.fullName}"></td>
                             <td><span th:each="r : ${u.roles}" th:text="${r.role} + ' '"></span></td>
-                            <td><a class="btn btn-secondary" style="color: white;" th:href="@{'/usersDetail/' + ${u.id}}" role="button">DETAILS</a></td>
-<!--                            <td class="d-flex">-->
-<!--                                <button type="button" class="btn btn-secondary btn-sm mb-auto" data-toggle="modal" th:data-target="'#editUser'+${u.id}">EDIT</button>-->
-<!--                                <div class="modal fade" th:id="'editUser'+${u.id}" tabindex="-1" role="dialog" aria-hidden="true">-->
-<!--                                    <div class="modal-dialog" role="document">-->
-<!--                                        <div class="modal-content">-->
-<!--                                            <div class="modal-header">-->
-<!--                                                <h5 class="modal-title">Edit User</h5>-->
-<!--                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                                                    <span aria-hidden="true">&times</span>-->
-<!--                                                </button>-->
-<!--                                            </div>-->
-<!--                                            <div class="modal-body">-->
-<!--                                                <form th:action="@{/editUser}" method="post">-->
-<!--                                                    <div class="form-group">-->
-<!--                                                        <label class="form-label">Email:</label>-->
-<!--                                                        <input type="email" name="user_email" class="form-control" th:value="${u.email}">-->
-<!--                                                    </div>-->
-<!--                                                    <div class="form-group">-->
-<!--                                                        <label class="form-label">Password:</label>-->
-<!--                                                        <input type="password" name="user_password" class="form-control" th:value="${u.password}">-->
-<!--                                                    </div>-->
-<!--                                                    <div class="form-group">-->
-<!--                                                        <label class="form-label">Full Name:</label>-->
-<!--                                                        <input type="text" name="user_fullName" class="form-control" th:value="${u.fullName}">-->
-<!--                                                    </div>-->
-<!--                                                    <hr>-->
-<!--                                                    <input type="hidden" name="user_id" th:value="${u.id}">-->
-<!--                                                    <button type="submit" class="btn btn-primary btn-sm">SAVE</button>-->
-<!--                                                    <button type="button" class="btn btn-secondary ml-sm-1 btn-sm" data-dismiss="modal">CANCEL</button>-->
-<!--                                                </form>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <form th:action="@{/deleteUser}" method="post">-->
-<!--                                    <input type="hidden" name="user_id" th:value="${u.id}">-->
-<!--                                    <button type="submit" class="btn btn-danger btn-sm ml-sm-1">DELETE</button>-->
-<!--                                </form>-->
-<!--                            </td>-->
+                            <td><a class="btn btn-secondary" style="color: white;" th:href="@{'/usersDetail/' + ${u.id}}" role="button" th:text="#{button.details}"></a></td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="tab-pane fade" id="v-pills-countries" role="tabpanel" aria-labelledby="v-pills-countries-tab">
-                    <button type="button" class="btn btn-success ml-auto" style="color: white;" data-toggle="modal" data-target="#addCountry">+ ADD NEW COUNTRY</button>
+                    <button type="button" class="btn btn-success ml-auto" style="color: white;" data-toggle="modal" data-target="#addCountry" th:text="#{button.addNewCountry}"></button>
                     <table class="table mt-5" >
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">NAME</th>
-                                <th scope="col">CODE</th>
-                                <th scope="col">DETAILS</th>
+                                <th scope="col" th:text="#{th.name}"></th>
+                                <th scope="col" th:text="#{th.code}"></th>
+                                <th scope="col" th:text="#{th.details}"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -93,12 +54,12 @@
                                 <td th:text="${c.name}"></td>
                                 <td th:text="${c.code}"></td>
                                 <td class="d-flex">
-                                    <button type="button" class="btn btn-secondary btn-sm mb-auto" data-toggle="modal" th:data-target="'#editCountry'+${c.id}">EDIT</button>
+                                    <button type="button" class="btn btn-secondary btn-sm mb-auto" data-toggle="modal" th:data-target="'#editCountry'+${c.id}" th:text="#{button.edit}"></button>
                                     <div class="modal fade" th:id="'editCountry'+${c.id}" tabindex="-1" role="dialog" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title">Edit Country</h5>
+                                                    <h5 class="modal-title" th:text="#{h5.editCountry}"></h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times</span>
                                                     </button>
@@ -106,17 +67,17 @@
                                                 <div class="modal-body">
                                                     <form th:action="@{/editCountry}" method="post">
                                                         <div class="form-group">
-                                                            <label class="form-label">County Name:</label>
+                                                            <label class="form-label" th:text="#{label.countryName}"></label>
                                                             <input type="text" name="country_name" class="form-control" th:value="${c.name}">
                                                         </div>
                                                         <div class="form-group">
-                                                            <label class="form-label">County Code:</label>
+                                                            <label class="form-label" th:text="#{label.countryCode}"></label>
                                                             <input type="text" name="country_code" class="form-control" th:value="${c.code}">
                                                         </div>
                                                         <hr>
                                                         <input type="hidden" name="country_id" th:value="${c.id}">
-                                                        <button type="submit" class="btn btn-primary btn-sm">SAVE</button>
-                                                        <button type="button" class="btn btn-secondary ml-sm-1 btn-sm" data-dismiss="modal">CANCEL</button>
+                                                        <button type="submit" class="btn btn-primary btn-sm" th:text="#{button.save}"></button>
+                                                        <button type="button" class="btn btn-secondary ml-sm-1 btn-sm" data-dismiss="modal" th:text="#{button.cancel}"></button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -124,7 +85,7 @@
                                     </div>
                                     <form th:action="@{/deleteCountry}" method="post">
                                         <input type="hidden" name="country_id" th:value="${c.id}">
-                                        <button type="submit" class="btn btn-danger btn-sm ml-sm-1">DELETE</button>
+                                        <button type="submit" class="btn btn-danger btn-sm ml-sm-1" th:text="#{button.delete}"></button>
                                     </form>
                                 </td>
                             </tr>
@@ -132,14 +93,14 @@
                     </table>
                 </div>
                 <div class="tab-pane fade" id="v-pills-brands" role="tabpanel" aria-labelledby="v-pills-brands-tab">
-                    <button type="button" class="btn btn-success ml-auto" style="color: white;" data-toggle="modal" data-target="#addBrand">+ ADD NEW BRAND</button>
+                    <button type="button" class="btn btn-success ml-auto" style="color: white;" data-toggle="modal" data-target="#addBrand" th:text="#{button.addNewBrand}"></button>
                     <table class="table mt-5" >
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">NAME</th>
-                                <th scope="col">COUNTRY</th>
-                                <th scope="col">DETAILS</th>
+                                <th scope="col" th:text="#{th.name}"></th>
+                                <th scope="col" th:text="#{th.country}"></th>
+                                <th scope="col" th:text="#{th.details}"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -148,12 +109,12 @@
                                 <td th:text="${b.name}"></td>
                                 <td th:text="${b.country.name}"></td>
                                 <td class="d-flex">
-                                    <button type="button" class="btn btn-secondary btn-sm mb-auto" data-toggle="modal" th:data-target="'#editBrand'+${b.id}">EDIT</button>
+                                    <button type="button" class="btn btn-secondary btn-sm mb-auto" data-toggle="modal" th:data-target="'#editBrand'+${b.id}" th:text="#{button.edit}"></button>
                                     <div class="modal fade" th:id="'editBrand'+${b.id}" tabindex="-1" role="dialog" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title">Edit Brand</h5>
+                                                    <h5 class="modal-title" th:text="#{h5.editBrand}"></h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times</span>
                                                     </button>
@@ -161,17 +122,17 @@
                                                 <div class="modal-body">
                                                     <form th:action="@{/editBrand}" method="post">
                                                         <div class="form-group">
-                                                            <label class="form-label">Name:</label>
+                                                            <label class="form-label" th:text="#{label.name}"></label>
                                                             <input type="text" name="brand_name" class="form-control" th:value="${b.name}">
                                                         </div>
                                                         <div class="form-group">
-                                                            <label class="form-label">Country:</label>
+                                                            <label class="form-label" th:text="#{label.country}"></label>
                                                             <input type="text" name="brand_country" class="form-control" th:value="${b.country.name}">
                                                         </div>
                                                         <hr>
                                                         <input type="hidden" name="brand_id" th:value="${b.id}">
-                                                        <button type="submit" class="btn btn-primary btn-sm">SAVE</button>
-                                                        <button type="button" class="btn btn-secondary ml-sm-1 btn-sm" data-dismiss="modal">CANCEL</button>
+                                                        <button type="submit" class="btn btn-primary btn-sm" th:text="#{button.save}"></button>
+                                                        <button type="button" class="btn btn-secondary ml-sm-1 btn-sm" data-dismiss="modal" th:text="#{button.cancel}"></button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -179,7 +140,7 @@
                                     </div>
                                     <form th:action="@{/deleteBrand}" method="post">
                                         <input type="hidden" name="brand_id" th:value="${b.id}">
-                                        <button type="submit" class="btn btn-danger btn-sm ml-sm-1">DELETE</button>
+                                        <button type="submit" class="btn btn-danger btn-sm ml-sm-1" th:text="#{button.cancel}"></button>
                                     </form>
                                 </td>
                             </tr>
@@ -187,7 +148,7 @@
                     </table>
                 </div>
                 <div class="tab-pane fade" id="v-pills-items" role="tabpanel" aria-labelledby="v-pills-items-tab">
-                    <button type="button" class="btn btn-success ml-auto" style="color: white;" data-toggle="modal" data-target="#addItem">+ ADD NEW ITEM</button>
+                    <button type="button" class="btn btn-success ml-auto" style="color: white;" data-toggle="modal" data-target="#addItem" th:text="#{button.addNewItem}"></button>
                     <table class="table mt-5" >
                         <thead>
                         <tr>
@@ -206,21 +167,20 @@
                             <td th:text="${it.price}"></td>
                             <td th:text="${#strings.substring(it.addedDate,0,10)}"></td>
                             <td th:text="${it.brand.name}"></td>
-                            <td><a class="btn btn-secondary" style="color: white;" th:href="@{'/detailsItem/' + ${it.id}}" role="button">DETAILS</a></td>
+                            <td><a class="btn btn-secondary" style="color: white;" th:href="@{'/detailsItem/' + ${it.id}}" role="button" th:text="#{button.details}"></a></td>
                         </tr>
                         </tbody>
                     </table>
-
                 </div>
                 <div class="tab-pane fade" id="v-pills-categories" role="tabpanel" aria-labelledby="v-pills-categories-tab">
-                    <button type="button" class="btn btn-success ml-auto" style="color: white;" data-toggle="modal" data-target="#addCategory">+ ADD NEW CATEGORY</button>
+                    <button type="button" class="btn btn-success ml-auto" style="color: white;" data-toggle="modal" data-target="#addCategory" th:text="#{button.addNewCategory}"></button>
                     <table class="table mt-5" >
                         <thead>
                         <tr>
                             <th scope="col">ID</th>
-                            <th scope="col">NAME</th>
-                            <th scope="col">LOGO URL</th>
-                            <th scope="col">DETAILS</th>
+                            <th scope="col" th:text="#{th.name}"></th>
+                            <th scope="col" th:text="#{th.logoUrl}"></th>
+                            <th scope="col" th:text="#{th.details}"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -229,12 +189,12 @@
                             <td th:text="${cat.name}"></td>
                             <td th:text="${cat.logoURL}"></td>
                             <td class="d-flex">
-                                <button type="button" class="btn btn-secondary btn-sm mb-auto" data-toggle="modal" th:data-target="'#editCategory'+${cat.id}">EDIT</button>
+                                <button type="button" class="btn btn-secondary btn-sm mb-auto" data-toggle="modal" th:data-target="'#editCategory'+${cat.id}" th:text="#{button.edit}"></button>
                                 <div class="modal fade" th:id="'editCategory'+${cat.id}" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title">Edit Category</h5>
+                                                <h5 class="modal-title" th:text="#{h5.editCategory}"></h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times</span>
                                                 </button>
@@ -242,17 +202,17 @@
                                             <div class="modal-body">
                                                 <form th:action="@{/editCategory}" method="post">
                                                     <div class="form-group">
-                                                        <label class="form-label">Name:</label>
+                                                        <label class="form-label" th:text="#{label.name}"></label>
                                                         <input type="text" name="category_name" class="form-control" th:value="${cat.name}">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="form-label">Logo URL:</label>
+                                                        <label class="form-label" th:text="#{label.logoUrl}"></label>
                                                         <input type="text" name="logo" class="form-control" th:value="${cat.logoURL}">
                                                     </div>
                                                     <hr>
                                                     <input type="hidden" name="brand_id" th:value="${cat.id}">
-                                                    <button type="submit" class="btn btn-primary btn-sm">SAVE</button>
-                                                    <button type="button" class="btn btn-secondary ml-sm-1 btn-sm" data-dismiss="modal">CANCEL</button>
+                                                    <button type="submit" class="btn btn-primary btn-sm" th:text="#{button.save}"></button>
+                                                    <button type="button" class="btn btn-secondary ml-sm-1 btn-sm" data-dismiss="modal" th:text="#{button.cancel}"></button>
                                                 </form>
                                             </div>
                                         </div>
@@ -260,7 +220,7 @@
                                 </div>
                                 <form th:action="@{/deleteCategory}" method="post">
                                     <input type="hidden" name="category_id" th:value="${cat.id}">
-                                    <button type="submit" class="btn btn-danger btn-sm ml-sm-1">DELETE</button>
+                                    <button type="submit" class="btn btn-danger btn-sm ml-sm-1" th:text="#{button.delete}"></button>
                                 </form>
                             </td>
                         </tr>
@@ -268,13 +228,13 @@
                     </table>
                 </div>
                 <div class="tab-pane fade" id="v-pills-roles" role="tabpanel" aria-labelledby="v-pills-roles-tab">
-                    <button type="button" class="btn btn-success ml-auto" style="color: white;" data-toggle="modal" data-target="#addRole">+ ADD NEW ROLE</button>
+                    <button type="button" class="btn btn-success ml-auto" style="color: white;" data-toggle="modal" data-target="#addRole" th:text="#{button.addNewRole}"></button>
                     <table class="table mt-5" >
                         <thead>
                         <tr>
                             <th scope="col">ID</th>
-                            <th scope="col">ROLE</th>
-                            <th scope="col">DETAILS</th>
+                            <th scope="col" th:text="#{th.role}"></th>
+                            <th scope="col" th:text="#{th.details}"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -282,12 +242,12 @@
                             <th scope="row" th:text="${r.id}"></th>
                             <td th:text="${r.role}"></td>
                             <td class="d-flex">
-                                <button type="button" class="btn btn-secondary btn-sm mb-auto" data-toggle="modal" th:data-target="'#editRole'+${r.id}">EDIT</button>
+                                <button type="button" class="btn btn-secondary btn-sm mb-auto" data-toggle="modal" th:data-target="'#editRole'+${r.id}" th:text="#{button.edit}"></button>
                                 <div class="modal fade" th:id="'editRole'+${r.id}" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title">Edit Role</h5>
+                                                <h5 class="modal-title" th:text="#{h5.editRole}"></h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times</span>
                                                 </button>
@@ -295,13 +255,13 @@
                                             <div class="modal-body">
                                                 <form th:action="@{/editRole}" method="post">
                                                     <div class="form-group">
-                                                        <label class="form-label">Role:</label>
+                                                        <label class="form-label" th:text="#{label.role}"></label>
                                                         <input type="text" name="role" class="form-control" th:value="${r.role}">
                                                     </div>
                                                     <hr>
                                                     <input type="hidden" name="country_id" th:value="${r.id}">
-                                                    <button type="submit" class="btn btn-primary btn-sm">SAVE</button>
-                                                    <button type="button" class="btn btn-secondary ml-sm-1 btn-sm" data-dismiss="modal">CANCEL</button>
+                                                    <button type="submit" class="btn btn-primary btn-sm" th:text="#{button.save}"></button>
+                                                    <button type="button" class="btn btn-secondary ml-sm-1 btn-sm" data-dismiss="modal" th:text="#{button.cancel}"></button>
                                                 </form>
                                             </div>
                                         </div>
@@ -309,7 +269,7 @@
                                 </div>
                                 <form th:action="@{/deleteRole}" method="post">
                                     <input type="hidden" name="role_id" th:value="${r.id}">
-                                    <button type="submit" class="btn btn-danger btn-sm ml-sm-1">DELETE</button>
+                                    <button type="submit" class="btn btn-danger btn-sm ml-sm-1" th:text="#{button.delete}"></button>
                                 </form>
                             </td>
                         </tr>
@@ -344,28 +304,28 @@
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Add User</h5>
+                            <h5 class="modal-title" th:text="#{h5.addUser}"></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>EMAIL: </label>
+                                <label th:text="#{label.email}"></label>
                                 <input type="email" required class="form-control" name="email">
                             </div>
                             <div class="form-group">
-                                <label>PASSWORD: </label>
+                                <label th:text="#{label.password}"></label>
                                 <input type="password" required class="form-control" name="password">
                             </div>
                             <div class="form-group">
-                                <label>FULL NAME: </label>
+                                <label th:text="#{label.fullName}"></label>
                                 <input type="text" class="form-control" name="fullName">
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-dark" data-dismiss="modal">CLOSE</button>
-                            <button type="submit" class="btn btn-primary">ADD USER</button>
+                            <button type="button" class="btn btn-dark" data-dismiss="modal" th:text="#{button.close}"></button>
+                            <button type="submit" class="btn btn-primary" th:text="#{button.addUser}"></button>
                         </div>
                     </div>
                 </div>
@@ -376,24 +336,24 @@
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Add Country</h5>
+                            <h5 class="modal-title" th:text="#{h5.addCountry}"></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>NAME: </label>
+                                <label th:text="#{label.name}"></label>
                                 <input type="text" required class="form-control" name="name">
                             </div>
                             <div class="form-group">
-                                <label>CODE: </label>
+                                <label th:text="#{label.code}"></label>
                                 <input type="text" required class="form-control" name="code">
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-dark" data-dismiss="modal">CLOSE</button>
-                            <button type="submit" class="btn btn-primary">ADD COUNTRY</button>
+                            <button type="button" class="btn btn-dark" data-dismiss="modal" th:text="#{button.close}"></button>
+                            <button type="submit" class="btn btn-primary" th:text="#{button.addCountry}"></button>
                         </div>
                     </div>
                 </div>
@@ -404,26 +364,26 @@
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Add Brand</h5>
+                            <h5 class="modal-title" th:text="#{h5.addBrand}"></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>NAME: </label>
+                                <label th:text="#{label.name}"></label>
                                 <input type="text" required class="form-control" name="name">
                             </div>
                             <div class="form-group">
-                                <label>COUNTRY: </label>
+                                <label th:text="#{label.country}"></label>
                                 <select name="country" class="form-control">
                                     <option th:each="c : ${countries}" th:text="${c.name}" th:value="${c.id}"></option>
                                 </select>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-dark" data-dismiss="modal">CLOSE</button>
-                            <button type="submit" class="btn btn-primary">ADD BRAND</button>
+                            <button type="button" class="btn btn-dark" data-dismiss="modal" th:text="#{button.close}"></button>
+                            <button type="submit" class="btn btn-primary" th:text="#{button.addBrand}"></button>
                         </div>
                     </div>
                 </div>
@@ -434,26 +394,26 @@
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Add Item</h5>
+                            <h5 class="modal-title" th:text="#{h5.addItem}"></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>NAME: </label>
+                                <label th:text="#{label.name}"></label>
                                 <input type="text" required class="form-control" name="name">
                             </div>
                             <div class="form-group">
-                                <label>DESCRIPTION: </label>
+                                <label th:text="#{label.description}"></label>
                                 <input type="text" required class="form-control" name="description">
                             </div>
                             <div class="form-group">
-                                <label>PRICE: </label>
+                                <label th:text="#{label.price}"></label>
                                 <input type="number" required class="form-control" name="price">
                             </div>
                             <div class="form-group">
-                                <label>STARS: </label>
+                                <label th:text="#{label.stars}"></label>
                                 <select name="stars" class="form-control">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -463,34 +423,34 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>SMALL PICTURE: </label>
+                                <label th:text="#{label.smPicture}"></label>
                                 <input type="text" required class="form-control" name="smallPicURL">
                             </div>
                             <div class="form-group">
-                                <label>LARGE PICTURE: </label>
+                                <label th:text="#{label.lgPicture}"></label>
                                 <input type="text" required class="form-control" name="largePicURL">
                             </div>
                             <div class="form-group">
-                                <label>DATE: </label>
+                                <label th:text="#{label.date}"></label>
                                 <input type="date" required class="form-control" name="addedDate">
                             </div>
                             <div class="form-group">
-                                <label>TOP PAGE: </label>
+                                <label th:text="#{label.topPage}"></label>
                                 <select name="inTopPage" class="form-control">
                                     <option value="true">YES</option>
                                     <option value="false">NO</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>BRAND: </label>
+                                <label th:text="#{label.brand}"></label>
                                 <select name="brand" class="form-control">
                                     <option th:each="b : ${brands}" th:text="${b.name}" th:value="${b.id}"></option>
                                 </select>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-dark" data-dismiss="modal">CLOSE</button>
-                            <button type="submit" class="btn btn-primary">ADD ITEM</button>
+                            <button type="button" class="btn btn-dark" data-dismiss="modal" th:text="#{button.close}"></button>
+                            <button type="submit" class="btn btn-primary" th:text="#{button.addItem}"></button>
                         </div>
                     </div>
                 </div>
@@ -501,24 +461,24 @@
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Add Category</h5>
+                            <h5 class="modal-title" th:text="#{h5.addCategory}"></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>NAME: </label>
+                                <label th:text="#{label.name}"></label>
                                 <input type="text" required class="form-control" name="category_name">
                             </div>
                             <div class="form-group">
-                                <label>LOGO URL: </label>
+                                <label th:text="#{label.logoUrl}"></label>
                                 <input type="text" required class="form-control" name="logo">
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-dark" data-dismiss="modal">CLOSE</button>
-                            <button type="submit" class="btn btn-primary">ADD CATEGORY</button>
+                            <button type="button" class="btn btn-dark" data-dismiss="modal" th:text="#{button.close}"></button>
+                            <button type="submit" class="btn btn-primary" th:text="#{button.addCategory}"></button>
                         </div>
                     </div>
                 </div>

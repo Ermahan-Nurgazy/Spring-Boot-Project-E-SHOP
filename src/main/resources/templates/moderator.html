@@ -3,22 +3,22 @@
     <div class="row my-5" layout:fragment="content">
         <div class="col-2">
             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <a class="nav-link active" id="v-pills-items-tab" data-toggle="pill" href="#v-pills-items" role="tab" aria-controls="v-pills-items" aria-selected="true">Shop Items</a>
+                <a class="nav-link active" id="v-pills-items-tab" data-toggle="pill" href="#v-pills-items" role="tab" aria-controls="v-pills-items" aria-selected="false" th:text="#{admin.shopItems}"></a>
             </div>
         </div>
         <div class="col-10">
             <div class="tab-content" id="v-pills-tabContent">
                 <div class="tab-pane fade show active" id="v-pills-items" role="tabpanel" aria-labelledby="v-pills-items-tab">
-                    <button type="button" class="btn btn-success ml-auto" style="color: white;" data-toggle="modal" data-target="#addItem">+ ADD NEW ITEM</button>
+                    <button type="button" class="btn btn-success ml-auto" style="color: white;" data-toggle="modal" data-target="#addItem" th:text="#{button.addNewItem}"></button>
                     <table class="table mt-5" >
                         <thead>
                         <tr>
                             <th scope="col">ID</th>
-                            <th scope="col">NAME</th>
-                            <th scope="col">PRICE</th>
-                            <th scope="col">DATE</th>
-                            <th scope="col">BRAND</th>
-                            <th scope="col">DETAILS</th>
+                            <th scope="col" th:text="#{th.name}"></th>
+                            <th scope="col" th:text="#{th.price}"></th>
+                            <th scope="col" th:text="#{th.date}"></th>
+                            <th scope="col" th:text="#{th.brand}"></th>
+                            <th scope="col" th:text="#{th.details}"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -26,13 +26,12 @@
                             <th scope="row" th:text="${it.id}"></th>
                             <td th:text="${it.name}"></td>
                             <td th:text="${it.price}"></td>
-                            <td th:text="${it.addedDate}"></td>
+                            <td th:text="${#strings.substring(it.addedDate,0,10)}"></td>
                             <td th:text="${it.brand.name}"></td>
-                            <td><a class="btn btn-secondary" style="color: white;" th:href="@{'/detailsItemM/' + ${it.id}}" role="button">DETAILS</a></td>
+                            <td><a class="btn btn-secondary" style="color: white;" th:href="@{'/detailsItem/' + ${it.id}}" role="button" th:text="#{button.details}"></a></td>
                         </tr>
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>
@@ -41,26 +40,26 @@
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Add Item</h5>
+                            <h5 class="modal-title" th:text="#{h5.addItem}"></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>NAME: </label>
+                                <label th:text="#{label.name}"></label>
                                 <input type="text" required class="form-control" name="name">
                             </div>
                             <div class="form-group">
-                                <label>DESCRIPTION: </label>
+                                <label th:text="#{label.description}"></label>
                                 <input type="text" required class="form-control" name="description">
                             </div>
                             <div class="form-group">
-                                <label>PRICE: </label>
+                                <label th:text="#{label.price}"></label>
                                 <input type="number" required class="form-control" name="price">
                             </div>
                             <div class="form-group">
-                                <label>STARS: </label>
+                                <label th:text="#{label.stars}"></label>
                                 <select name="stars" class="form-control">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -70,34 +69,34 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>SMALL PICTURE: </label>
+                                <label th:text="#{label.smPicture}"></label>
                                 <input type="text" required class="form-control" name="smallPicURL">
                             </div>
                             <div class="form-group">
-                                <label>LARGE PICTURE: </label>
+                                <label th:text="#{label.lgPicture}"></label>
                                 <input type="text" required class="form-control" name="largePicURL">
                             </div>
                             <div class="form-group">
-                                <label>DATE: </label>
+                                <label th:text="#{label.date}"></label>
                                 <input type="date" required class="form-control" name="addedDate">
                             </div>
                             <div class="form-group">
-                                <label>TOP PAGE: </label>
+                                <label th:text="#{label.topPage}"></label>
                                 <select name="inTopPage" class="form-control">
                                     <option value="true">YES</option>
                                     <option value="false">NO</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>BRAND: </label>
+                                <label th:text="#{label.brand}"></label>
                                 <select name="brand" class="form-control">
                                     <option th:each="b : ${brands}" th:text="${b.name}" th:value="${b.id}"></option>
                                 </select>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-dark" data-dismiss="modal">CLOSE</button>
-                            <button type="submit" class="btn btn-primary">ADD ITEM</button>
+                            <button type="button" class="btn btn-dark" data-dismiss="modal" th:text="#{button.close}"></button>
+                            <button type="submit" class="btn btn-primary" th:text="#{button.addItem}"></button>
                         </div>
                     </div>
                 </div>
