@@ -1,0 +1,99 @@
+<html lang="en" xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout" layout:decorator = "layout/main.html">
+<div class="row my-5" layout:fragment="content">
+    <div class="col-3">
+        <ul class="list-group">
+            <li class="list-group-item" style="background-color: darkgreen">
+                <p style="color: white; margin-bottom: 0" th:text="#{p.categories}"></p>
+            </li>
+            <li class="list-group-item">
+                <a th:href="@{'/'}" style="text-decoration: none; color: black">
+                    <span th:text="#{button.allItems}"></span>
+                    <i class="fa fa-shopping-cart"></i>
+                </a>
+            </li>
+            <li class="list-group-item" th:each="cat : ${categories}">
+                <a th:href="@{'/category/' + ${cat.id}}" style="text-decoration: none; color: black">
+                    <span th:text="${cat.name}"></span>
+                    <img th:src="@{${cat.logoURL}}" style="height: 20px; width: 20px">
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-9">
+        <div class="offset-2">
+            <form th:action="@{/updateProfile}" class="my-4" method="post">
+                <input type="hidden" name="user_id" th:value="${user.id}">
+                <div class="form-group">
+                    <label th:text="#{label.email}"></label>
+                    <input type="email" name="email" class="form-control" th:value="${user.email}" required>
+                </div>
+                <div class="form-group">
+                    <label>FULL NAME:</label>
+                    <input type="text" name="fullName" class="form-control" th:value="${user.fullName}" required>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-success float-right">UPDATE PROFILE</button>
+                </div>
+            </form>
+            <form th:action="@{'/updatePassword'}" class="my-5" method="post">
+                <input type="hidden" name="id" th:value="${user.getId()}">
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Old Password:</label>
+                    <input type="password" name="oldPassword" class="form-control" required id="exampleInputPassword1" placeholder="Old Password">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword2">New Password:</label>
+                    <input type="password" name="password" class="form-control" required id="exampleInputPassword2" placeholder="New Password">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword3">Retype New Password:</label>
+                    <input type="password" name="rePassword" class="form-control" required id="exampleInputPassword3" placeholder="Retype New Password">
+                </div>
+                <button type="submit" class="btn btn-success float-right">UPDATE PASSWORD</button>
+            </form>
+            <form th:action="@{/deleteUser}" method="post">
+                <input type="hidden" name="user_id" th:value="${user.id}">
+                <button type="submit" class="btn btn-danger" style="margin-top: -7%;">DELETE</button>
+            </form>
+        </div>
+        <div class="row mt-5" id="roleDiv">
+            <div class="col-6 offset-3">
+                <table class="table table-stripped">
+                    <tbody>
+                    <tr th:each="r : ${user.roles}">
+                        <form th:action="@{/unassignRole}" method="post">
+                            <input type="hidden" th:value="${user.id}" name="user_id">
+                            <input type="hidden" th:value="${r.id}" name="role_id">
+                            <td th:text="${r.role}"></td>
+                            <td style="width: 10%">
+                                <button type="submit" class="btn btn-danger btn-sm"> - </button>
+                            </td>
+                        </form>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-6 offset-3">
+                <table class="table table-stripped">
+                    <tbody>
+                    <tr th:each="r : ${roles}">
+                        <form th:action="@{/assignRole}" method="post">
+                            <input type="hidden" th:value="${user.id}" name="user_id">
+                            <input type="hidden" th:value="${r.id}" name="role_id">
+                            <td th:if="${!user.roles.contains(r)}" th:text="${r.role}"></td>
+                            <td th:if="${!user.roles.contains(r)}" style="width: 10%">
+                                <button type="submit" class="btn btn-success btn-sm"> + </button>
+                            </td>
+                        </form>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+</html>

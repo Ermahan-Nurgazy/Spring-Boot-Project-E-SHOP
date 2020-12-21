@@ -1,0 +1,111 @@
+<html lang="en" xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorator = "layout/main.html"
+      xmlns:sec = "http://www.thymeleaf.org/extras/spring-security">
+<div class="row my-5" layout:fragment="content">
+    <div class="col-3">
+        <ul class="list-group">
+            <li class="list-group-item" style="background-color: darkgreen">
+                <p style="color: white; margin-bottom: 0" th:text="#{p.categories}"></p>
+            </li>
+            <li class="list-group-item">
+                <a th:href="@{'/'}" style="text-decoration: none; color: black">
+                    <span th:text="#{button.allItems}"></span>
+                    <i class="fa fa-shopping-cart"></i>
+                </a>
+            </li>
+            <li class="list-group-item" th:each="cat : ${categories}">
+                <a th:href="@{'/category/' + ${cat.id}}" style="text-decoration: none; color: black">
+                    <span th:text="${cat.name}"></span>
+                    <img th:src="@{${cat.logoURL}}" style="height: 20px; width: 20px">
+                </a>
+            </li>
+        </ul>
+        <ul class="list-group mt-2">
+            <li class="list-group-item" style="background-color: darkgreen">
+                <p style="color: white; margin-bottom: 0" th:text="#{p.brands}"></p>
+            </li>
+            <li class="list-group-item" th:each="b : ${brands}">
+                <a th:text="${b.name}" th:href="@{'/brands/' + ${b.id}}" style="text-decoration: none; color: black"></a>
+            </li>
+        </ul>
+        <ul class="list-group mt-2">
+            <li class="list-group-item" style="background-color: darkgreen">
+                <p style="color: white; margin-bottom: 0" th:text="#{p.payments}"></p>
+            </li>
+            <li class="list-group-item">
+                <div class="col">
+                    <div class="row">
+                        <i class="fab fa-cc-apple-pay p-2" style="color: darkgreen; font-size: 60px;"></i>
+                        <i class="fa fa-cc-visa p-2" style="color: darkgreen; font-size: 60px;"></i>
+                        <i class="fa fa-cc-paypal p-2" style="color: darkgreen; font-size: 60px;"></i>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <i class="fab fa-cc-amazon-pay p-2" style="color: darkgreen; font-size: 60px;"></i>
+                        <i class="fa fa-cc-mastercard p-2" style="color: darkgreen; font-size: 60px;"></i>
+                        <i class="fa fa-cc-amex p-2" style="color: darkgreen; font-size: 60px;"></i>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="col-9">
+        <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+                <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img th:src="@{https://www.monwindows.com/images/cache/blog/54866_0b8806b4751316a6f8f8f0260fd3da92_1200_400.jpg}" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5 class="px-2" style="background-color: white; color: black" th:text="#{h5.carousel-title}"></h5>
+                        <p style="color: white;" th:text="#{p.carousel-subtitle}"></p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img th:src="@{https://www.monwindows.com/images/cache/blog/b4258_dohktjnv4aa0h2n_1200_400.jpg}" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5 class="px-2" style="background-color: white; color: black" th:text="#{h5.carousel-title}"></h5>
+                        <p style="color: white;" th:text="#{p.carousel-subtitle}"></p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img th:src="@{https://filearchive.cnews.ru/mrtest/images/publication/593/63593_IMG_1200X500.jpg}" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5 class="px-2" style="background-color: white; color: black" th:text="#{h5.carousel-title}"></h5>
+                        <p style="color: white;" th:text="#{p.carousel-subtitle}"></p>
+                    </div>
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+        <div class="d-flex flex-wrap card-deck mt-5">
+            <div class="card my-2" style="min-width: 250px; max-width: 250px;" th:each="it : ${shopItems}">
+                <img style="height: 200px;" th:src="@{${it.smallPicURL}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5><a class="card-title" style="text-decoration: none" th:text="${it.name}" th:href="@{'/details/' + ${it.id}}"></a></h5>
+                    <h5 class="card-title" th:text="${it.price}"></h5>
+                    <p class="card-text" th:text="${it.description}"></p>
+                    <p class="card-title">BRAND: <span style="color: #00bfff" th:each="br : ${brands}" th:if="${it.brand.id == br.id}" th:text="${br.name}"></span>, <span style="color: #00bfff" th:each="cn : ${countries}" th:if="${it.brand.country.id == cn.id}" th:text="${cn.code}"></span></p>
+                </div>
+                <div class="card-footer">
+                    <div class="d-inline-block" th:each="i: ${#numbers.sequence(1, 5)}">
+                        <span class="fa fa-star" th:style="${it.stars >= i} ? 'color: orange'"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

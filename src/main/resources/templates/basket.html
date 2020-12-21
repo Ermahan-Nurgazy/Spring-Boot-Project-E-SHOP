@@ -1,0 +1,146 @@
+<html lang="en" xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorator = "layout/main.html"
+      xmlns:sec = "http://www.thymeleaf.org/extras/spring-security">
+<div class="row my-5" layout:fragment="content">
+    <div class="col-3">
+        <ul class="list-group">
+            <li class="list-group-item" style="background-color: darkgreen">
+                <p style="color: white; margin-bottom: 0" th:text="#{p.categories}"></p>
+            </li>
+            <li class="list-group-item">
+                <a th:href="@{'/'}" style="text-decoration: none; color: black">
+                    <span th:text="#{button.allItems}"></span>
+                    <i class="fa fa-shopping-cart"></i>
+                </a>
+            </li>
+            <li class="list-group-item" th:each="cat : ${categories}">
+                <a th:href="@{'/category/' + ${cat.id}}" style="text-decoration: none; color: black">
+                    <span th:text="${cat.name}"></span>
+                    <img th:src="@{${cat.logoURL}}" style="height: 20px; width: 20px">
+                </a>
+            </li>
+        </ul>
+        <ul class="list-group mt-2">
+            <li class="list-group-item" style="background-color: darkgreen">
+                <p style="color: white; margin-bottom: 0" th:text="#{p.brands}"></p>
+            </li>
+            <li class="list-group-item" th:each="b : ${brands}">
+                <a th:text="${b.name}" th:href="@{'/brands/' + ${b.id}}" style="text-decoration: none; color: black"></a>
+            </li>
+        </ul>
+        <ul class="list-group mt-2">
+            <li class="list-group-item" style="background-color: darkgreen">
+                <p style="color: white; margin-bottom: 0" th:text="#{p.payments}"></p>
+            </li>
+            <li class="list-group-item">
+                <div class="col">
+                    <div class="row">
+                        <i class="fab fa-cc-apple-pay p-2" style="color: darkgreen; font-size: 60px;"></i>
+                        <i class="fa fa-cc-visa p-2" style="color: darkgreen; font-size: 60px;"></i>
+                        <i class="fa fa-cc-paypal p-2" style="color: darkgreen; font-size: 60px;"></i>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <i class="fab fa-cc-amazon-pay p-2" style="color: darkgreen; font-size: 60px;"></i>
+                        <i class="fa fa-cc-mastercard p-2" style="color: darkgreen; font-size: 60px;"></i>
+                        <i class="fa fa-cc-amex p-2" style="color: darkgreen; font-size: 60px;"></i>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="col-9">
+        <h3>Basket</h3>
+        <table class="table mt-3">
+            <thead>
+            <tr>
+                <th scope="col">Item</th>
+                <th scope="col">Price</th>
+                <th scope="col">Amount</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${basket_items}">
+                <th scope="row" th:text="${item.getName()}"></th>
+                <td th:text="${item.getPrice()}"></td>
+                <td th:text="${amount.get(basket_items.indexOf(item))}"></td>
+                <td>
+                    <button type="submit" th:form="itemAmountAdd+${item.id}" class="btn btn-success btn-sm">+</button>
+                    <button type="submit" th:form="itemAmountDelete+${item.id}" class="btn btn-danger btn-sm">-</button>
+                    <form th:id="itemAmountAdd+${item.id}" th:action="@{'/addBasketInBasket'}" method="post">
+                        <input type="hidden" name="item_id" th:value="${item.id}">
+                    </form>
+                    <form th:id="itemAmountDelete+${item.id}" th:action="@{'/deleteBasket'}" method="post">
+                        <input type="hidden" name="item_id" th:value="${item.id}">
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-between">
+            <div>TOTAL: <h5 th:text="${total}+' KZT'"></h5></div>
+            <div>
+                <button type="button" class="btn btn-dark btn-sm my-2 bd-highlight" data-toggle="modal"
+                        data-target="#Modal1" data-whatever="Name of City..."><i class="fa fa-credit-card mr-2"></i>CHECK IN
+                </button>
+
+                <button type="submit" th:form="clear" class="btn btn-danger btn-sm my-2 ml-1 bd-highlight"><i class="fa fa-trash mr-2"></i>CLEAR BASKET</button>
+                <form th:id="clear" th:action="@{'/clearBasket'}" method="post"></form>
+            </div>
+        </div>
+        <div class="modal fade" id="Modal1" tabindex="-1" role="dialog" aria-labelledby="ModalLabel1"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ModalLabel1">
+                            <i class="fab fa-cc-apple-pay mx-2" style="color: black; font-size: 45px;"></i>
+                            <i class="fa fa-cc-visa mr-2" style="color: black; font-size: 45px;"></i>
+                            <i class="fa fa-cc-paypal mr-2" style="color: black; font-size: 45px;"></i>
+                            <i class="fab fa-cc-amazon-pay mr-2" style="color: black; font-size: 45px;"></i>
+                            <i class="fa fa-cc-mastercard mr-2" style="color: black; font-size: 45px;"></i>
+                            <i class="fa fa-cc-amex" style="color: black; font-size: 45px;"></i>
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/pay}" method="post">
+                            <div class="form-group">
+                                <label class="col-form-label">FULL NAME:</label>
+                                <input type="text" class="form-control" name="fullname" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-form-label">CARD NUMBER:</label>
+                                <input type="text" class="form-control" name="card_number" required>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col">
+                                    <label class="col-form-label">Expiration (MM/YY):</label>
+                                    <input type="text" class="form-control" name="expiration" required>
+                                </div>
+                                <div class="col">
+                                    <label class="col-form-label">CVV:</label>
+                                    <input type="text" class="form-control" name="cvv" required>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="nav justify-content-end">
+                                <button type="submit" class="btn btn-primary btn-sm">ADD</button>
+                                <button type="button" class="btn btn-secondary ml-sm-1 btn-sm"
+                                        data-dismiss="modal">CANCEL
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

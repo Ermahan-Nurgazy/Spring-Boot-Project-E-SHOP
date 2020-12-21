@@ -1,0 +1,165 @@
+<html lang="en" xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorator = "layout/main.html"
+      xmlns:sec = "http://www.thymeleaf.org/extras/spring-security">
+<div class="row my-5" layout:fragment="content">
+    <div class="col-3">
+        <ul class="list-group">
+            <li class="list-group-item" style="background-color: darkgreen">
+                <p style="color: white; margin-bottom: 0" th:text="#{p.categories}"></p>
+            </li>
+            <li class="list-group-item">
+                <a th:href="@{'/'}" style="text-decoration: none; color: black">
+                    <span th:text="#{button.allItems}"></span>
+                    <i class="fa fa-shopping-cart"></i>
+                </a>
+            </li>
+            <li class="list-group-item" th:each="cat : ${categories}">
+                <a th:href="@{'/category/' + ${cat.id}}" style="text-decoration: none; color: black">
+                    <span th:text="${cat.name}"></span>
+                    <img th:src="@{${cat.logoURL}}" style="height: 20px; width: 20px">
+                </a>
+            </li>
+        </ul>
+        <ul class="list-group mt-2">
+            <li class="list-group-item" style="background-color: darkgreen">
+                <p style="color: white; margin-bottom: 0" th:text="#{p.brands}"></p>
+            </li>
+            <li class="list-group-item" th:each="b : ${brands}">
+                <a th:text="${b.name}" th:href="@{'/brands/' + ${b.id}}" style="text-decoration: none; color: black"></a>
+            </li>
+        </ul>
+        <ul class="list-group mt-2">
+            <li class="list-group-item" style="background-color: darkgreen">
+                <p style="color: white; margin-bottom: 0" th:text="#{p.payments}"></p>
+            </li>
+            <li class="list-group-item">
+                <div class="col">
+                    <div class="row">
+                        <i class="fab fa-cc-apple-pay p-2" style="color: darkgreen; font-size: 60px;"></i>
+                        <i class="fa fa-cc-visa p-2" style="color: darkgreen; font-size: 60px;"></i>
+                        <i class="fa fa-cc-paypal p-2" style="color: darkgreen; font-size: 60px;"></i>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <i class="fab fa-cc-amazon-pay p-2" style="color: darkgreen; font-size: 60px;"></i>
+                        <i class="fa fa-cc-mastercard p-2" style="color: darkgreen; font-size: 60px;"></i>
+                        <i class="fa fa-cc-amex p-2" style="color: darkgreen; font-size: 60px;"></i>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="col-9">
+        <form th:action="@{/search}" method="post" class="d-flex flex-row mt-3">
+            <div class="form-group col-9">
+                <input type="text" name="search" placeholder="Enter to search..." class="form-control">
+            </div>
+            <div class="form-group col-3">
+                <button type="submit" class="btn" style="background-color: darkgreen; color: white;">SEARCH</button>
+            </div>
+        </form>
+        <div class="d-flex flex-wrap card-deck">
+            <div class="card my-2">
+                <img th:src="@{${item.largePicURL}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5><a class="card-title" style="text-decoration: none" th:text="${item.name}"></a></h5>
+                    <h5 class="card-title" th:text="${item.price}"></h5>
+                    <p class="card-text" th:text="${item.description}"></p>
+                    <p class="card-title">BRAND: <span style="color: #00bfff" th:each="br : ${brands}" th:if="${item.brand.id == br.id}" th:text="${br.name}"></span>, <span style="color: #00bfff" th:each="cn : ${countries}" th:if="${item.brand.country.id == cn.id}" th:text="${cn.name}"></span></p>
+                    <h3 class="text-center mt-2" th:text="#{h3.screenshots}"></h3>
+                    <div class="card-deck">
+                        <div class="card" th:each="p : ${pictures}">
+                            <div class="card-body">
+                                <img th:src="@{'/viewPicture/'+${p.url}}" class="card-img-top" alt="screenshot">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="d-inline-block" th:each="i: ${#numbers.sequence(1, 5)}">
+                        <span class="fa fa-star" th:style="${item.stars >= i} ? 'color: orange'"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form sec:authorize="hasRole('ROLE_USER')" th:action="@{/addBasket}" method="post">
+            <input type="hidden" th:value="${item.id}" name="item_id">
+            <button type="submit" class="btn btn-success"><i class="fa fa-shopping-cart mr-2"></i>ADD TO BASKET</button>
+        </form>
+        <form sec:authorize="isAuthenticated()" th:action="@{'/addComment'}" method="post" class="mt-lg-5">
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1" th:text="#{label.comment}"></label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="comment" required></textarea>
+            </div>
+            <div class="form-group d-flex justify-content-end">
+                <input type="hidden" name="item_id" th:value="${item.id}">
+                <input type="hidden" name="user_id" th:value="${curUser.id}">
+                <button type="submit" class="btn btn-primary my-1 bd-highlight" th:text="#{button.addComment}"><i class="fa fa-comments mr-2"></i></button></div>
+        </form>
+        <div class="card mt-lg-5">
+            <ul class="list-group list-group-flush" th:each="comment:${comments}">
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between">
+                        <h5 th:text="${comment.getAuthor().getFullName()}"></h5>
+                        <p th:text="${comment.addedDate}"></p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p th:text="${comment.comment}"></p>
+                        <div>
+                            <button th:if="${comment.getAuthor()==curUser}" type="button" class="btn btn-dark btn-sm" data-toggle="modal"
+                                    th:data-target="'#editComment'+${comment.id}" data-whatever="Name of comment...">
+                                <i class="fa fa-edit"></i>
+                            </button>
+
+                            <div class="modal fade" th:id="editComment+${comment.id}" tabindex="-1" role="dialog" th:aria-labelledby="editLabel+${comment.id}"
+                                 aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" th:id="editLabel+${comment.id}" th:text="#{h5.editComment}"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form th:action="@{'/editComment'}" method="post">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" th:text="#{label.comment}"></label>
+                                                    <textarea class="form-control" name="comment" th:text="${comment.comment}"></textarea>
+                                                    <input type="hidden" name="comment_id" th:value="${comment.id}">
+                                                    <input type="hidden" name="item_id" th:value="${item.id}">
+                                                </div>
+                                                <hr>
+                                                <div class="nav justify-content-end">
+                                                    <button type="submit" class="btn btn-success btn-sm" th:text="#{button.save}"></button>
+                                                    <button type="button" class="btn btn-secondary ml-sm-1 btn-sm"
+                                                            data-dismiss="modal">CANCEL
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <button sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')" type="submit" th:form="deleteComment+${comment.id}" class="btn btn-danger btn-sm">
+                                <i class="fa fa-trash-alt"></i>
+                            </button>
+                            <button sec:authorize="hasRole('ROLE_USER')" th:if="${comment.getAuthor()==curUser}" type="submit" th:form="deleteComment+${comment.id}" class="btn btn-danger btn-sm">
+                                <i class="fa fa-trash-alt"></i>
+                            </button>
+                            <form th:id="deleteComment+${comment.id}" th:action="@{'/deleteComment'}" method="post">
+                                <input type="hidden" name="comment_id" th:value="${comment.id}">
+                                <input type="hidden" name="item_id" th:value="${item.id}">
+                            </form>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</html>

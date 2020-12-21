@@ -1,0 +1,95 @@
+<html lang="en" xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout" layout:decorator = "layout/main.html">
+<div class="row my-5" layout:fragment="content">
+    <div class="col-3">
+        <ul class="list-group">
+            <li class="list-group-item" style="background-color: darkgreen">
+                <p style="color: white; margin-bottom: 0" th:text="#{p.categories}"></p>
+            </li>
+            <li class="list-group-item">
+                <a th:href="@{'/'}" style="text-decoration: none; color: black">
+                    <span th:text="#{button.allItems}"></span>
+                    <i class="fa fa-shopping-cart"></i>
+                </a>
+            </li>
+            <li class="list-group-item" th:each="cat : ${categories}">
+                <a th:href="@{'/category/' + ${cat.id}}" style="text-decoration: none; color: black">
+                    <span th:text="${cat.name}"></span>
+                    <img th:src="@{${cat.logoURL}}" style="height: 20px; width: 20px">
+                </a>
+            </li>
+        </ul>
+        <ul class="list-group mt-2">
+            <li class="list-group-item" style="background-color: darkgreen">
+                <p style="color: white; margin-bottom: 0" th:text="#{p.brands}"></p>
+            </li>
+            <li class="list-group-item" th:each="b : ${brands}">
+                <a th:text="${b.name}" th:href="@{'/brands/' + ${b.id}}" style="text-decoration: none; color: black"></a>
+            </li>
+        </ul>
+        <ul class="list-group mt-2">
+            <li class="list-group-item" style="background-color: darkgreen">
+                <p style="color: white; margin-bottom: 0" th:text="#{p.payments}"></p>
+            </li>
+            <li class="list-group-item">
+                <div class="col">
+                    <div class="row">
+                        <i class="fab fa-cc-apple-pay p-2" style="color: darkgreen; font-size: 60px;"></i>
+                        <i class="fa fa-cc-visa p-2" style="color: darkgreen; font-size: 60px;"></i>
+                        <i class="fa fa-cc-paypal p-2" style="color: darkgreen; font-size: 60px;"></i>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <i class="fab fa-cc-amazon-pay p-2" style="color: darkgreen; font-size: 60px;"></i>
+                        <i class="fa fa-cc-mastercard p-2" style="color: darkgreen; font-size: 60px;"></i>
+                        <i class="fa fa-cc-amex p-2" style="color: darkgreen; font-size: 60px;"></i>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="col-9">
+        <form th:action="@{/filter}"  method="post" class="d-flex flex-row mt-3">
+            <div class="form-group ml-4">
+                <label>Name: </label>
+                <input type="text" name="name" placeholder="Enter to search..." class="form-control">
+            </div>
+            <div class="form-group ml-2">
+                <label>Brand: </label>
+                <select name="brand" class="form-control">
+                    <option th:each="br : ${brands}" th:value="${br.id}" th:text="${br.name}"></option>
+                </select>
+            </div>
+            <div class="form-group ml-2">
+                <label>Price from: </label>
+                <input type="number" name="priceFrom" class="form-control">
+            </div>
+            <div class="form-group ml-2">
+                <label>Price to: </label>
+                <input type="number" name="priceTo" class="form-control">
+            </div>
+            <div class="form-group ml-3 mt-auto">
+                <button type="submit" class="btn" style="background-color: darkgreen; color: white;">SEARCH</button>
+            </div>
+        </form>
+
+        <div class="d-flex flex-wrap card-deck">
+            <div class="card my-2" style="min-width: 250px; max-width: 250px;" th:each="it : ${shopItems}">
+                <img style="height: 200px;" th:src="@{${it.smallPicURL}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5><a class="card-title" style="text-decoration: none" th:text="${it.name}" th:href="@{'/details/' + ${it.id}}"></a></h5>
+                    <h5 class="card-title" th:text="${it.price}"></h5>
+                    <p class="card-text" th:text="${it.description}"></p>
+                    <p class="card-title">BRAND: <span style="color: #00bfff" th:each="br : ${brands}" th:if="${it.brand.id == br.id}" th:text="${br.name}"></span>, <span style="color: #00bfff" th:each="cn : ${countries}" th:if="${it.brand.country.id == cn.id}" th:text="${cn.code}"></span></p>
+                </div>
+                <div class="card-footer">
+                    <div class="d-inline-block" th:each="i: ${#numbers.sequence(1, 5)}">
+                        <span class="fa fa-star" th:style="${it.stars >= i} ? 'color: orange'"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

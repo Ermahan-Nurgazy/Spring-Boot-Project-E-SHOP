@@ -1,0 +1,78 @@
+<html lang="en" xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout" layout:decorator = "layout/main.html">
+<div class="row my-5" layout:fragment="content">
+    <div class="col-3">
+        <ul class="list-group">
+            <li class="list-group-item" style="background-color: darkgreen">
+                <p style="color: white; margin-bottom: 0" th:text="#{p.categories}"></p>
+            </li>
+            <li class="list-group-item">
+                <a th:href="@{'/'}" style="text-decoration: none; color: black">
+                    <span th:text="#{button.allItems}"></span>
+                    <i class="fa fa-shopping-cart"></i>
+                </a>
+            </li>
+            <li class="list-group-item" th:each="cat : ${categories}">
+                <a th:href="@{'/category/' + ${cat.id}}" style="text-decoration: none; color: black">
+                    <span th:text="${cat.name}"></span>
+                    <img th:src="@{${cat.logoURL}}" style="height: 20px; width: 20px">
+                </a>
+            </li>
+        </ul>
+        <ul class="list-group mt-2">
+            <li class="list-group-item" style="background-color: darkgreen">
+                <p style="color: white; margin-bottom: 0" th:text="#{p.brands}"></p>
+            </li>
+            <li class="list-group-item" th:each="b : ${brands}">
+                <a th:text="${b.name}" th:href="@{'/brands/' + ${b.id}}" style="text-decoration: none; color: black"></a>
+            </li>
+        </ul>
+        <ul class="list-group mt-2">
+            <li class="list-group-item" style="background-color: darkgreen">
+                <p style="color: white; margin-bottom: 0" th:text="#{p.payments}"></p>
+            </li>
+            <li class="list-group-item">
+                <div class="col">
+                    <div class="row">
+                        <i class="fab fa-cc-apple-pay p-2" style="color: darkgreen; font-size: 60px;"></i>
+                        <i class="fa fa-cc-visa p-2" style="color: darkgreen; font-size: 60px;"></i>
+                        <i class="fa fa-cc-paypal p-2" style="color: darkgreen; font-size: 60px;"></i>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <i class="fab fa-cc-amazon-pay p-2" style="color: darkgreen; font-size: 60px;"></i>
+                        <i class="fa fa-cc-mastercard p-2" style="color: darkgreen; font-size: 60px;"></i>
+                        <i class="fa fa-cc-amex p-2" style="color: darkgreen; font-size: 60px;"></i>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="col-9">
+        <div class="offset-2">
+            <form th:action="@{/register}" method="post">
+                <div class="form-group">
+                    <label>EMAIL: </label>
+                    <input type="email" required class="form-control" name="email">
+                </div>
+                <div class="form-group">
+                    <label>PASSWORD: </label>
+                    <input type="password" required class="form-control" name="password">
+                </div>
+                <div class="form-group">
+                    <label>RETYPE PASSWORD: </label>
+                    <input type="password" required class="form-control" name="rePassword">
+                </div>
+                <div class="form-group">
+                    <label>FULL NAME: </label>
+                    <input type="text" class="form-control" name="fullName">
+                </div>
+                <div class="form-group ">
+                    <button class="btn btn-success float-right">SIGN UP</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</html>

@@ -1,0 +1,107 @@
+<html lang="en" xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout" layout:decorator = "layout/main.html">
+    <div class="row my-5" layout:fragment="content">
+        <div class="col-2">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-items-tab" data-toggle="pill" href="#v-pills-items" role="tab" aria-controls="v-pills-items" aria-selected="true">Shop Items</a>
+            </div>
+        </div>
+        <div class="col-10">
+            <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-items" role="tabpanel" aria-labelledby="v-pills-items-tab">
+                    <button type="button" class="btn btn-success ml-auto" style="color: white;" data-toggle="modal" data-target="#addItem">+ ADD NEW ITEM</button>
+                    <table class="table mt-5" >
+                        <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">NAME</th>
+                            <th scope="col">PRICE</th>
+                            <th scope="col">DATE</th>
+                            <th scope="col">BRAND</th>
+                            <th scope="col">DETAILS</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="it : ${shopItems}">
+                            <th scope="row" th:text="${it.id}"></th>
+                            <td th:text="${it.name}"></td>
+                            <td th:text="${it.price}"></td>
+                            <td th:text="${it.addedDate}"></td>
+                            <td th:text="${it.brand.name}"></td>
+                            <td><a class="btn btn-secondary" style="color: white;" th:href="@{'/detailsItemM/' + ${it.id}}" role="button">DETAILS</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <form th:action="@{/addItem}" method="post">
+            <div class="modal fade" id="addItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add Item</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>NAME: </label>
+                                <input type="text" required class="form-control" name="name">
+                            </div>
+                            <div class="form-group">
+                                <label>DESCRIPTION: </label>
+                                <input type="text" required class="form-control" name="description">
+                            </div>
+                            <div class="form-group">
+                                <label>PRICE: </label>
+                                <input type="number" required class="form-control" name="price">
+                            </div>
+                            <div class="form-group">
+                                <label>STARS: </label>
+                                <select name="stars" class="form-control">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>SMALL PICTURE: </label>
+                                <input type="text" required class="form-control" name="smallPicURL">
+                            </div>
+                            <div class="form-group">
+                                <label>LARGE PICTURE: </label>
+                                <input type="text" required class="form-control" name="largePicURL">
+                            </div>
+                            <div class="form-group">
+                                <label>DATE: </label>
+                                <input type="date" required class="form-control" name="addedDate">
+                            </div>
+                            <div class="form-group">
+                                <label>TOP PAGE: </label>
+                                <select name="inTopPage" class="form-control">
+                                    <option value="true">YES</option>
+                                    <option value="false">NO</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>BRAND: </label>
+                                <select name="brand" class="form-control">
+                                    <option th:each="b : ${brands}" th:text="${b.name}" th:value="${b.id}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-dark" data-dismiss="modal">CLOSE</button>
+                            <button type="submit" class="btn btn-primary">ADD ITEM</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</html>

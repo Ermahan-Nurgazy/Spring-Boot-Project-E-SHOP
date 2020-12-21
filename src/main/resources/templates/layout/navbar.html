@@ -1,0 +1,44 @@
+<nav class="navbar navbar-expand-lg" style="background-color: darkgreen;">
+    <div class="container">
+    <a class="navbar-brand" th:href="@{/}" style="color: white; text-decoration: none;"><i class="fa fa-joomla"></i> ALL-IN SHOP</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <select class="px-2 mr-2 mt-2" style="background-color: darkgreen; border: none; color: lightgray" size="1" name="links" onchange="this.options[this.selectedIndex].value && (window.location.href=this.value);">
+                    <option value="none" selected disabled hidden>ENG</option>
+                    <option value="?lng=en">ENG</option>
+                    <option value="?lng=ru">РУС</option>
+                    <option value="?lng=kz">ҚАЗ</option>
+                </select>
+            </li>
+            <li class="nav-item" sec:authorize="isAnonymous()">
+                <a role="button" class="btn" th:href="@{/basket}" style="text-decoration: none; color:lightgray;"><i class="fa fa-shopping-cart mr-2"></i>Basket (<span th:text="${total_amount}"></span>)</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasRole('ROLE_USER')">
+                <a role="button" class="btn" th:href="@{/basket}" style="text-decoration: none; color:lightgray;"><i class="fa fa-shopping-cart mr-2"></i>Basket (<span th:text="${total_amount}"></span>)</a>
+            </li>
+            <li class="nav-item" sec:authorize="isAnonymous()">
+                <a role="button" class="btn" th:href="@{/login}" style="text-decoration: none; color:lightgray;">Login</a>
+            </li>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a role="button" class="btn" th:href="@{/profile}" style="color:lightgray; text-decoration: none" th:text="${curUser.fullName}"></a>
+            </li>
+            <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                <a role="button" class="btn" th:href="@{/admin}" style="text-decoration: none; color:lightgray;">Admin</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasRole('ROLE_MODERATOR')">
+                <a role="button" class="btn" th:href="@{/moderator}" style="text-decoration: none; color:lightgray;">Item Configuration</a>
+            </li>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a role="button" class="btn" href="JavaScript:void(0)" onclick="document.getElementById('logoutFormId').submit()" style="text-decoration: none; color:lightgray;">Logout</a>
+            </li>
+
+            <form th:action="@{/logout}" method="post" id="logoutFormId" sec:authorize="isAuthenticated()"></form>
+        </ul>
+    </div>
+    </div>
+</nav>

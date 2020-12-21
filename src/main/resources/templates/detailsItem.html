@@ -1,0 +1,147 @@
+<html lang="en" xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorator = "layout/main.html"
+      xmlns:sec = "http://www.thymeleaf.org/extras/spring-security">
+    <div class="col" layout:fragment="content">
+        <div class="row my-5">
+            <div class="col-6 offset-3">
+                <form th:action="@{/editItem}" method="post">
+                    <div class="form-group">
+                        <label class="form-label">Name: </label>
+                        <input type="text" class="form-control" name="item_name" th:value="${item.name}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description: </label>
+                        <input type="text" class="form-control" name="item_description" th:value="${item.description}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Price: </label>
+                        <input type="number" class="form-control" name="item_price" th:value="${item.price}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Stars: </label>
+                        <input type="number" class="form-control" name="item_stars" th:value="${item.stars}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Small Picture: </label>
+                        <input type="text" class="form-control" name="item_smPicUrl" th:value="${item.smallPicURL}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Large Picture: </label>
+                        <input type="text" class="form-control" name="item_lgPicUrl" th:value="${item.largePicURL}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Date: </label>
+                        <input type="date" class="form-control" name="item_date" th:value="${item.addedDate}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Top page: </label>
+                        <select name="item_inTopPage" class="form-control">
+                            <option value="true">YES</option>
+                            <option value="false">NO</option>
+                        </select>
+                    </div>
+                    <label>BRAND: </label>
+                    <select name="brand" class="form-control">
+                        <option th:each="b : ${brands}" th:text="${b.name}" th:value="${b.id}"></option>
+                    </select>
+                    <hr>
+                    <input type="hidden" name="item_id" th:value="${item.id}">
+                    <button type="submit" class="btn btn-success">SAVE</button>
+                </form>
+                <form th:action="@{/deleteItem}" method="post">
+                    <input type="hidden" name="item_id" th:value="${item.id}">
+                    <button type="submit" class="btn btn-danger" style="margin-top: -13%; margin-left: 13%;">DELETE</button>
+                </form>
+            </div>
+        </div>
+        <div class="row mt-2" id="categoryDiv">
+            <div class="col-6 offset-3">
+                <table class="table table-stripped">
+                    <tbody>
+                    <tr th:each="cat : ${item.categories}">
+                        <form th:action="@{/unassignCategory}" method="post">
+                            <input type="hidden" th:value="${item.id}" name="item_id">
+                            <input type="hidden" th:value="${cat.id}" name="category_id">
+                            <td th:text="${cat.name}"></td>
+                            <td style="width: 10%">
+                                <button type="submit" class="btn btn-danger btn-sm"> - </button>
+                            </td>
+                        </form>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-6 offset-3">
+                <table class="table table-stripped">
+                    <tbody>
+                    <tr th:each="cat : ${categories}">
+                        <form th:action="@{/assignCategory}" method="post">
+                            <input type="hidden" th:value="${item.id}" name="item_id">
+                            <input type="hidden" th:value="${cat.id}" name="category_id">
+                            <td th:text="${cat.name}"></td>
+                            <td style="width: 10%">
+                                <button type="submit" class="btn btn-success btn-sm"> + </button>
+                            </td>
+                        </form>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <table class="table mt-3" id="pictureTable">
+            <thead>
+            <tr>
+                <th scope="col">Picture</th>
+                <th scope="col">URL</th>
+                <th scope="col">Added Date</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${pictures}">
+                <th scope="row">
+                    <img th:src="@{'/viewPicture/'+${p.url}}" height="100px" alt="">
+                </th>
+                <td th:text="${p.url}"></td>
+                <td th:text="${p.addedDate}"></td>
+                <td>
+                    <form th:action="@{/unassignPicture}" method="post">
+                        <input type="hidden" th:value="${item.id}" name="item_id">
+                        <input type="hidden" th:value="${p.id}" name="picture_id">
+                        <button type="submit" class="btn btn-danger btn-sm"> - </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-success" data-toggle="modal" data-target="#addPicture"> + </button>
+            <form th:action="@{/assignPicture}" method="post" enctype="multipart/form-data">
+            <input type="hidden" th:value="${item.id}" name="item_id">
+            <div class="modal fade" id="addPicture" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add Picture</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="custom-file d-inline-block">
+                                <input type="file" class="custom-file-input" id="customFile" name="item_picture">
+                                <label class="custom-file-label col-5" for="customFile">Choose file</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-dark" data-dismiss="modal">CLOSE</button>
+                            <button type="submit" class="btn btn-primary">ADD</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</html>
