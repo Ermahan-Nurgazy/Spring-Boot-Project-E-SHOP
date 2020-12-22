@@ -55,8 +55,8 @@
             <form th:action="@{/uploadAvatar}" method="post" class="mt-3" enctype="multipart/form-data">
                 <div class="custom-file d-inline-block">
                     <input type="file" class="custom-file-input" id="customFile" name="user_avatar">
-                    <label class="custom-file-label col-5" for="customFile">Choose file</label>
-                    <button class="btn btn-success mt-2">UPLOAD</button>
+                    <label class="custom-file-label col-5" for="customFile" th:text="#{label.chooseFile}"></label>
+                    <button class="btn btn-success mt-2" th:text="#{button.upload}"></button>
                 </div>
             </form>
             <form th:action="@{/updateProfile}" class="my-4" method="post">
@@ -66,28 +66,28 @@
                     <input type="email" name="email" class="form-control" th:value="${curUser.email}" required>
                 </div>
                 <div class="form-group">
-                    <label>FULL NAME:</label>
+                    <label th:text="#{label.fullName}"></label>
                     <input type="text" name="fullName" class="form-control" th:value="${curUser.fullName}" required>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-success float-right">UPDATE PROFILE</button>
+                    <button class="btn btn-success float-right" th:text="#{button.updateProfile}"></button>
                 </div>
             </form>
             <form th:action="@{'/updatePassword'}" class="my-5" method="post">
                 <input type="hidden" name="id" th:value="${curUser.getId()}">
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Old Password:</label>
-                    <input type="password" name="oldPassword" class="form-control" required id="exampleInputPassword1" placeholder="Old Password">
+                    <label for="exampleInputPassword1" th:text="#{label.oldPassword}"></label>
+                    <input type="password" name="oldPassword" class="form-control" required id="exampleInputPassword1">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword2">New Password:</label>
-                    <input type="password" name="password" class="form-control" required id="exampleInputPassword2" placeholder="New Password">
+                    <label for="exampleInputPassword2" th:text="#{label.newPassword}"></label>
+                    <input type="password" name="password" class="form-control" required id="exampleInputPassword2">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword3">Retype New Password:</label>
-                    <input type="password" name="rePassword" class="form-control" required id="exampleInputPassword3" placeholder="Retype New Password">
+                    <label for="exampleInputPassword3" th:text="#{label.retypeNewPassword}"></label>
+                    <input type="password" name="rePassword" class="form-control" required id="exampleInputPassword3">
                 </div>
-                <button type="submit" class="btn btn-success float-right">UPDATE PASSWORD</button>
+                <button type="submit" class="btn btn-success float-right" th:text="#{button.updatePassword}"></button>
             </form>
         </div>
     </div>

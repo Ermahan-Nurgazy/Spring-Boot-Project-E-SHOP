@@ -97,7 +97,7 @@
                     <h5><a class="card-title" style="text-decoration: none" th:text="${it.name}" th:href="@{'/details/' + ${it.id}}"></a></h5>
                     <h5 class="card-title" th:text="${it.price}"></h5>
                     <p class="card-text" th:text="${it.description}"></p>
-                    <p class="card-title">BRAND: <span style="color: #00bfff" th:each="br : ${brands}" th:if="${it.brand.id == br.id}" th:text="${br.name}"></span>, <span style="color: #00bfff" th:each="cn : ${countries}" th:if="${it.brand.country.id == cn.id}" th:text="${cn.code}"></span></p>
+                    <p class="card-title"><span th:text="#{label.brand}"></span> <span style="color: #00bfff" th:each="br : ${brands}" th:if="${it.brand.id == br.id}" th:text="${br.name}"></span>, <span style="color: #00bfff" th:each="cn : ${countries}" th:if="${it.brand.country.id == cn.id}" th:text="${cn.code}"></span></p>
                 </div>
                 <div class="card-footer">
                     <div class="d-inline-block" th:each="i: ${#numbers.sequence(1, 5)}">

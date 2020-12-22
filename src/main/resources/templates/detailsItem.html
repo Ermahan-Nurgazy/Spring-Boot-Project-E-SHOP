@@ -7,51 +7,51 @@
             <div class="col-6 offset-3">
                 <form th:action="@{/editItem}" method="post">
                     <div class="form-group">
-                        <label class="form-label">Name: </label>
+                        <label class="form-label" th:text="#{label.name}"></label>
                         <input type="text" class="form-control" name="item_name" th:value="${item.name}">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Description: </label>
+                        <label class="form-label" th:text="#{label.description}"></label>
                         <input type="text" class="form-control" name="item_description" th:value="${item.description}">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Price: </label>
+                        <label class="form-label" th:text="#{label.price}"></label>
                         <input type="number" class="form-control" name="item_price" th:value="${item.price}">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Stars: </label>
+                        <label class="form-label" th:text="#{label.stars}"></label>
                         <input type="number" class="form-control" name="item_stars" th:value="${item.stars}">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Small Picture: </label>
+                        <label class="form-label" th:text="#{label.smPicture}"></label>
                         <input type="text" class="form-control" name="item_smPicUrl" th:value="${item.smallPicURL}">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Large Picture: </label>
+                        <label class="form-label" th:text="#{label.lgPicture}"></label>
                         <input type="text" class="form-control" name="item_lgPicUrl" th:value="${item.largePicURL}">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Date: </label>
+                        <label class="form-label" th:text="#{label.date}"></label>
                         <input type="date" class="form-control" name="item_date" th:value="${item.addedDate}">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Top page: </label>
+                        <label class="form-label" th:text="#{label.topPage}"></label>
                         <select name="item_inTopPage" class="form-control">
-                            <option value="true">YES</option>
-                            <option value="false">NO</option>
+                            <option value="true" th:text="#{option.yes}"></option>
+                            <option value="false" th:text="#{option.no}"></option>
                         </select>
                     </div>
-                    <label>BRAND: </label>
+                    <label th:text="#{label.brand}"></label>
                     <select name="brand" class="form-control">
                         <option th:each="b : ${brands}" th:text="${b.name}" th:value="${b.id}"></option>
                     </select>
                     <hr>
                     <input type="hidden" name="item_id" th:value="${item.id}">
-                    <button type="submit" class="btn btn-success">SAVE</button>
+                    <button type="submit" class="btn btn-success" th:text="#{button.save}"></button>
                 </form>
                 <form th:action="@{/deleteItem}" method="post">
                     <input type="hidden" name="item_id" th:value="${item.id}">
-                    <button type="submit" class="btn btn-danger" style="margin-top: -13%; margin-left: 13%;">DELETE</button>
+                    <button type="submit" class="btn btn-danger ml-auto float-right" style="margin-top: -8%;" th:text="#{button.delete}"></button>
                 </form>
             </div>
         </div>
@@ -94,9 +94,9 @@
         <table class="table mt-3" id="pictureTable">
             <thead>
             <tr>
-                <th scope="col">Picture</th>
-                <th scope="col">URL</th>
-                <th scope="col">Added Date</th>
+                <th scope="col" th:text="#{th.picture}"></th>
+                <th scope="col" th:text="#{th.URL}"></th>
+                <th scope="col" th:text="#{th.addedDate}"></th>
                 <th scope="col"></th>
             </tr>
             </thead>
@@ -124,7 +124,7 @@
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Add Picture</h5>
+                            <h5 class="modal-title" th:text="#{h5.addPicture}"></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -132,12 +132,12 @@
                         <div class="modal-body">
                             <div class="custom-file d-inline-block">
                                 <input type="file" class="custom-file-input" id="customFile" name="item_picture">
-                                <label class="custom-file-label col-5" for="customFile">Choose file</label>
+                                <label class="custom-file-label col-5" for="customFile" th:text="#{label.chooseFile}"></label>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-dark" data-dismiss="modal">CLOSE</button>
-                            <button type="submit" class="btn btn-primary">ADD</button>
+                            <button type="button" class="btn btn-dark" data-dismiss="modal" th:text="#{button.close}"></button>
+                            <button type="submit" class="btn btn-primary" th:text="#{button.add}"></button>
                         </div>
                     </div>
                 </div>

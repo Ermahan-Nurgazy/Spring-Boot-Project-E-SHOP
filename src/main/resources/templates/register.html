@@ -53,23 +53,23 @@
         <div class="offset-2">
             <form th:action="@{/register}" method="post">
                 <div class="form-group">
-                    <label>EMAIL: </label>
+                    <label th:text="#{label.email}"></label>
                     <input type="email" required class="form-control" name="email">
                 </div>
                 <div class="form-group">
-                    <label>PASSWORD: </label>
+                    <label th:text="#{label.password}"></label>
                     <input type="password" required class="form-control" name="password">
                 </div>
                 <div class="form-group">
-                    <label>RETYPE PASSWORD: </label>
+                    <label th:text="#{label.retypePassword}"></label>
                     <input type="password" required class="form-control" name="rePassword">
                 </div>
                 <div class="form-group">
-                    <label>FULL NAME: </label>
+                    <label th:text="#{label.fullName}"></label>
                     <input type="text" class="form-control" name="fullName">
                 </div>
                 <div class="form-group ">
-                    <button class="btn btn-success float-right">SIGN UP</button>
+                    <button class="btn btn-success float-right" th:text="#{button.signUp}"></button>
                 </div>
             </form>
         </div>

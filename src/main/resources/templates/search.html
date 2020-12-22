@@ -52,25 +52,25 @@
     <div class="col-9">
         <form th:action="@{/filter}"  method="post" class="d-flex flex-row mt-3">
             <div class="form-group ml-4">
-                <label>Name: </label>
-                <input type="text" name="name" placeholder="Enter to search..." class="form-control">
+                <label th:text="#{label.name}"></label>
+                <input type="text" name="name" th:placeholder="#{input.search}" class="form-control">
             </div>
             <div class="form-group ml-2">
-                <label>Brand: </label>
+                <label th:text="#{label.filter.brand}"></label>
                 <select name="brand" class="form-control">
                     <option th:each="br : ${brands}" th:value="${br.id}" th:text="${br.name}"></option>
                 </select>
             </div>
             <div class="form-group ml-2">
-                <label>Price from: </label>
+                <label th:text="#{label.filter.priceFrom}"></label>
                 <input type="number" name="priceFrom" class="form-control">
             </div>
             <div class="form-group ml-2">
-                <label>Price to: </label>
+                <label th:text="#{label.filter.priceTo}"></label>
                 <input type="number" name="priceTo" class="form-control">
             </div>
             <div class="form-group ml-3 mt-auto">
-                <button type="submit" class="btn" style="background-color: darkgreen; color: white;">SEARCH</button>
+                <button type="submit" class="btn" style="background-color: darkgreen; color: white;" th:text="#{button.search}"></button>
             </div>
         </form>
 
@@ -81,7 +81,7 @@
                     <h5><a class="card-title" style="text-decoration: none" th:text="${it.name}" th:href="@{'/details/' + ${it.id}}"></a></h5>
                     <h5 class="card-title" th:text="${it.price}"></h5>
                     <p class="card-text" th:text="${it.description}"></p>
-                    <p class="card-title">BRAND: <span style="color: #00bfff" th:each="br : ${brands}" th:if="${it.brand.id == br.id}" th:text="${br.name}"></span>, <span style="color: #00bfff" th:each="cn : ${countries}" th:if="${it.brand.country.id == cn.id}" th:text="${cn.code}"></span></p>
+                    <p class="card-title"><span th:text="#{label.brand}"></span> <span style="color: #00bfff" th:each="br : ${brands}" th:if="${it.brand.id == br.id}" th:text="${br.name}"></span>, <span style="color: #00bfff" th:each="cn : ${countries}" th:if="${it.brand.country.id == cn.id}" th:text="${cn.code}"></span></p>
                 </div>
                 <div class="card-footer">
                     <div class="d-inline-block" th:each="i: ${#numbers.sequence(1, 5)}">

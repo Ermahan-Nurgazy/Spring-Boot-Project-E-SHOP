@@ -54,10 +54,10 @@
     <div class="col-9">
         <form th:action="@{/search}" method="post" class="d-flex flex-row mt-3">
             <div class="form-group col-9">
-                <input type="text" name="search" placeholder="Enter to search..." class="form-control">
+                <input type="text" name="search" th:placeholder="#{input.search}" class="form-control">
             </div>
             <div class="form-group col-3">
-                <button type="submit" class="btn" style="background-color: darkgreen; color: white;">SEARCH</button>
+                <button type="submit" class="btn" style="background-color: darkgreen; color: white;" th:text="#{button.search}"></button>
             </div>
         </form>
         <div class="d-flex flex-wrap card-deck">
@@ -67,12 +67,12 @@
                     <h5><a class="card-title" style="text-decoration: none" th:text="${item.name}"></a></h5>
                     <h5 class="card-title" th:text="${item.price}"></h5>
                     <p class="card-text" th:text="${item.description}"></p>
-                    <p class="card-title">BRAND: <span style="color: #00bfff" th:each="br : ${brands}" th:if="${item.brand.id == br.id}" th:text="${br.name}"></span>, <span style="color: #00bfff" th:each="cn : ${countries}" th:if="${item.brand.country.id == cn.id}" th:text="${cn.name}"></span></p>
+                    <p class="card-title"><span th:text="#{label.brand}"></span> <span style="color: #00bfff" th:each="br : ${brands}" th:if="${item.brand.id == br.id}" th:text="${br.name}"></span>, <span style="color: #00bfff" th:each="cn : ${countries}" th:if="${item.brand.country.id == cn.id}" th:text="${cn.name}"></span></p>
                     <h3 class="text-center mt-2" th:text="#{h3.screenshots}"></h3>
                     <div class="card-deck">
                         <div class="card" th:each="p : ${pictures}">
                             <div class="card-body">
-                                <img th:src="@{'/viewPicture/'+${p.url}}" class="card-img-top" alt="screenshot">
+                                <img th:src="@{'/viewPicture/'+${p.url}}" class="card-img-top" style="height: 200px" alt="screenshot">
                             </div>
                         </div>
                     </div>
@@ -86,7 +86,7 @@
         </div>
         <form sec:authorize="hasRole('ROLE_USER')" th:action="@{/addBasket}" method="post">
             <input type="hidden" th:value="${item.id}" name="item_id">
-            <button type="submit" class="btn btn-success"><i class="fa fa-shopping-cart mr-2"></i>ADD TO BASKET</button>
+            <button type="submit" class="btn btn-success"><i class="fa fa-shopping-cart mr-2"></i><span th:text="#{button.addToBasket}"></span></button>
         </form>
         <form sec:authorize="isAuthenticated()" th:action="@{'/addComment'}" method="post" class="mt-lg-5">
             <div class="form-group">
@@ -135,7 +135,7 @@
                                                 <div class="nav justify-content-end">
                                                     <button type="submit" class="btn btn-success btn-sm" th:text="#{button.save}"></button>
                                                     <button type="button" class="btn btn-secondary ml-sm-1 btn-sm"
-                                                            data-dismiss="modal">CANCEL
+                                                            data-dismiss="modal" th:text="#{button.cancel}">
                                                     </button>
                                                 </div>
                                             </form>
