@@ -253,11 +253,9 @@ public class HomeController {
     @PostMapping("/updateProfile")
     public String updateProfile(Model model, @RequestParam(name = "user_id") Long id,
                            @RequestParam(name = "email") String email,
-                           @RequestParam(name = "password") String password,
                            @RequestParam(name = "fullName") String fullName){
         Users users = itemService.getUser(id);
         users.setEmail(email);
-        users.setPassword(password);
         users.setFullName(fullName);
         itemService.saveUser(users);
         List<Brands> brands = itemService.getAllBrands();
@@ -404,6 +402,72 @@ public class HomeController {
     public String deleteCountry(Model model, @RequestParam(name = "country_id") Long id){
         Countries country = itemService.getCountry(id);
         itemService.deleteCountry(country);
+        List<Users> users = itemService.getAllUsers();
+        List<ShopItems> shopItems = itemService.getAllItems();
+        List<Countries> countries = itemService.getAllCountries();
+        List<Brands> brands = itemService.getAllBrands();
+        List<Categories> categories = itemService.getAllCategories();
+        List<Roles> roles = itemService.getAllRoles();
+        model.addAttribute("roles",roles);
+        model.addAttribute("shopItems",shopItems);
+        model.addAttribute("countries",countries);
+        model.addAttribute("brands",brands);
+        model.addAttribute("users", users);
+        model.addAttribute("categories",categories);
+        model.addAttribute("curUser",getUserData());
+        return "/admin";
+    }
+
+    @PostMapping("/addRole")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String addRole(Model model, @RequestParam(name = "role") String role){
+        Roles r = new Roles();
+        r.setRole(role);
+        itemService.addRole(r);
+        List<Users> users = itemService.getAllUsers();
+        List<ShopItems> shopItems = itemService.getAllItems();
+        List<Countries> countries = itemService.getAllCountries();
+        List<Brands> brands = itemService.getAllBrands();
+        List<Categories> categories = itemService.getAllCategories();
+        List<Roles> roles = itemService.getAllRoles();
+        model.addAttribute("roles",roles);
+        model.addAttribute("shopItems",shopItems);
+        model.addAttribute("countries",countries);
+        model.addAttribute("brands",brands);
+        model.addAttribute("users", users);
+        model.addAttribute("categories",categories);
+        model.addAttribute("curUser",getUserData());
+        return "/admin";
+    }
+
+    @PostMapping("/editRole")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String editRole(Model model, @RequestParam(name = "role_id") Long id,
+                              @RequestParam(name = "role") String role){
+        Roles r = itemService.getRole(id);
+        r.setRole(role);
+        itemService.saveRole(r);
+        List<Users> users = itemService.getAllUsers();
+        List<ShopItems> shopItems = itemService.getAllItems();
+        List<Countries> countries = itemService.getAllCountries();
+        List<Brands> brands = itemService.getAllBrands();
+        List<Categories> categories = itemService.getAllCategories();
+        List<Roles> roles = itemService.getAllRoles();
+        model.addAttribute("roles",roles);
+        model.addAttribute("shopItems",shopItems);
+        model.addAttribute("countries",countries);
+        model.addAttribute("brands",brands);
+        model.addAttribute("users", users);
+        model.addAttribute("categories",categories);
+        model.addAttribute("curUser",getUserData());
+        return "/admin";
+    }
+
+    @PostMapping("/deleteRole")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String deleteRole(Model model, @RequestParam(name = "role_id") Long id){
+        Roles r = itemService.getRole(id);
+        itemService.deleteRole(r);
         List<Users> users = itemService.getAllUsers();
         List<ShopItems> shopItems = itemService.getAllItems();
         List<Countries> countries = itemService.getAllCountries();

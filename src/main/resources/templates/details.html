@@ -84,6 +84,10 @@
                 </div>
             </div>
         </div>
+        <form sec:authorize="isAnonymous()" th:action="@{/addBasket}" method="post">
+            <input type="hidden" th:value="${item.id}" name="item_id">
+            <button type="submit" class="btn btn-success"><i class="fa fa-shopping-cart mr-2"></i><span th:text="#{button.addToBasket}"></span></button>
+        </form>
         <form sec:authorize="hasRole('ROLE_USER')" th:action="@{/addBasket}" method="post">
             <input type="hidden" th:value="${item.id}" name="item_id">
             <button type="submit" class="btn btn-success"><i class="fa fa-shopping-cart mr-2"></i><span th:text="#{button.addToBasket}"></span></button>
